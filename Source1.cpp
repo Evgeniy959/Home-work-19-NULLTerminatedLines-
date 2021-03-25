@@ -80,27 +80,16 @@ int StrLen(char str[])
 
 void to_upper(char str[])
 {
-	for (int i = 0; str[i]; i++)
-	{
-		if (str[i] >= 'a' && str[i] <= 'z' || str[i] >= 'à' && str[i] <= 'ÿ')
-		{
-			str[i] -= 32;
-		}
-		else if (str[i] == '¸')str[i] -= 16;
-	}
-
+	int i = 0;
+	for (; str[i]; i++);
+	str[i] = toupper(str[i]);
 }
 
 void to_lower(char str[])
 {
-	for (int i = 0; str[i]; i++)
-	{
-		if (str[i] >= 'A' && str[i] <= 'Z' || str[i] >= 'À' && str[i] <= 'ß')
-		{
-			str[i] += 32;
-		}
-		else if (str[i] == '¨')str[i] += 16;
-	}
+	int i = 0;
+	for (; str[i]; i++);
+	str[i] = tolower(str[i]);
 }
 
 void capitalize(char str[])
