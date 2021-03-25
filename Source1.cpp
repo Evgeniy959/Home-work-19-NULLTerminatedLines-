@@ -134,6 +134,7 @@ bool is_palindrome(char str[])
 {
 	int n = StrLen(str);
 	char* buffer = new char[n + 1]{};
+	char* revbuffer;
 	strcpy_s(buffer, n + 1, str);// копирует строку str в строку буфер 
 	to_lower(buffer);
 	remove_symbol(buffer, ' ');
@@ -152,26 +153,12 @@ bool is_palindrome(char str[])
 
 bool is_int_number(char str[])
 {
-	for (int i = 0; str[i]; i++)
-	{
-		if (!(str[i] >= '0' && str[i] <= '9') && str[i] != ' ')return false;
-		if (str[i] == ' ' && str[i + 1] == ' ')return false;
-	}
-	return true;
+	cout << atoi(str) << endl;
+	return atoi(str);
 }
 int  to_int_number(char str[])
 {
-	if (!is_int_number(str))return 0;
-	int number = 0; //значение числа
-	for (int i = 0; str[i]; i++)
-	{
-		if (str[i] != ' ')
-		{
-			number *= 10; //сдвигаем число на 1 разряд влево чтобы освободить младший разряд для следующей цифры 
-			number += str[i] - 48; //48 ASCII код символа '0'
-		}
-	}
-	return number;
+	return atoi(str);
 }
 bool is_bin_number(char str[])
 {
@@ -187,57 +174,28 @@ bool is_bin_number(char str[])
 int  bin_to_dec(char str[])
 {
 	if (!is_bin_number(str))return 0;
-	int n = StrLen(str);
-	int decimal = 0;
-	int weight = 1;
-	for (int i = n - 1; i >= 0; i--)
-	{
-		if (str[i] != ' ')
-		{
-			decimal += (str[i] - 48) * weight;
-			weight *= 2;
-		}
-	}
-	return decimal;
+	char* end;
+	return strtol(str, &end, 2);
 }
 
 bool is_hex_number(char str[])
 {
 	for (int i = str[0] == '0' && str[1] == 'x' ? 2 : 0; str[i]; i++)
 	{
-		if (
-			!(str[i] >= '0' && str[i] <= '9') &&
-			!(str[i] >= 'a' && str[i] <= 'f') &&
-			!(str[i] >= 'A' && str[i] <= 'F') &&
-			str[i] != ' '
-			)
+		if (!isxdigit(str[i]) && !isspace(str[i]))
 		{
 			return false;
 		}
-		if (str[i] == ' ' && str[i + 1] == ' ')return false;
+		if (isspace(str[i] && isspace (str[i + 1]))return false;
 	}
 	return true;
 }
 int  hex_to_dec(char str[])
 {
 	if (!is_hex_number(str))return 0;
-	int n = strlen(str);
-	char* buffer = new char[n + 1]{};
-	strcpy(buffer, str);
-	to_upper(buffer);
-
-	int decimal = 0;
-	int weight = 1;
-	for (int i = n - 1; i >= 0; i--)
-	{
-		if (buffer[i] == 'x' || buffer[i] == 'X')break;
-		if (buffer[i] != ' ')
-		{
-			decimal += (buffer[i] - (is_digit(buffer[i]) ? 48 : 55)) * weight;
-			weight *= 16;
-		}
-	}
-	return decimal;
+	char* end;
+	return strtol(str, &end, 16);
+	
 }
 
 bool is_ip_address(char str[])
