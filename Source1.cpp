@@ -81,15 +81,13 @@ int StrLen(char str[])
 
 void to_upper(char str[])
 {
-	int i = 0;
-	for (; str[i]; i++);
+	for (int i = 0; str[i]; i++)
 	str[i] = toupper(str[i]);
 }
 
 void to_lower(char str[])
 {
-	int i = 0;
-	for (; str[i]; i++);
+	for (int i = 0; str[i]; i++)
 	str[i] = tolower(str[i]);
 }
 
