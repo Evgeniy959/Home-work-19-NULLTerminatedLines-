@@ -1,5 +1,6 @@
 ﻿#include<iostream>
-#include<ctype.h>	
+#include<ctype.h>
+#include<stdlib.h>
 #include<Windows.h>
 using namespace std;
 
@@ -136,19 +137,13 @@ bool is_palindrome(char str[])
 	char* buffer = new char[n + 1]{};
 	char* revbuffer;
 	strcpy_s(buffer, n + 1, str);// копирует строку str в строку буфер 
-	to_lower(buffer);
+	revbuffer = _strrev(buffer);
 	remove_symbol(buffer, ' ');
-	n = strlen(buffer);
-	for (int i = 0; i < n / 2; i++)
-	{
-		if (buffer[i] != buffer[n - 1 - i])
-		{
-			delete[] buffer;
-			return false;
-		}
-	}
-	delete[] buffer;
-	return true;
+	remove_symbol(revbuffer, ' ');
+	int res = _stricmp(buffer, revbuffer);
+	
+			delete[] revbuffer;
+			return res ? false : true;
 }
 
 bool is_int_number(char str[])
@@ -198,6 +193,8 @@ int  hex_to_dec(char str[])
 	
 }
 
+//-----------------------------------------------------------------------------------------
+// Без функций:
 bool is_ip_address(char str[])
 {
 	int number = 0, dots = 0; //number - число между точками; dots - количество точек
@@ -218,14 +215,14 @@ bool is_ip_address(char str[])
 			dots++;
 		}
 	}
-	if (dots != 3) return false; //точек-разделителей должно быть ровно 3
+	if (dots != 3) return false; //точек должно быть ровно 3
 	return true;
 }
 
 bool is_mac_address(char str[])
 {
 	int n = strlen(str);
-	int numbers = 0, delims = 0; //numbers - количестко hex чисел до разделителя, delims - разделитель (двоеточие или минус)
+	int numbers = 0, delims = 0; //numbers - количестко hex чисел до разделителя, delims - разделитель 
 	for (int i = 0; str[i]; i++)
 	{
 		if (str[i] == ' ') i++; //если пробел, идем к следующему символу
@@ -233,7 +230,7 @@ bool is_mac_address(char str[])
 		if (!(str[i] >= 'A' && str[i] <= 'F') 
 			&& !(str[i] >= 'a' && str[i] <= 'f') 
 			&& !(str[i] >= '0' && str[i] <= '9')
-			&& str[i] != ':' && str[i] != '-') return false; //допустимые символы в строке
+			&& str[i] != ':' && str[i] != '-') return false; 
 		if (str[i] != ':' && str[i] != '-') numbers++; //считаем кол-во hex-чисел до разделителя
 		if (numbers > 2) return false; //если кол-во hex-чисел до разделителя больше 2-х
 		if (str[i] == ':' || str[i] == '-')
